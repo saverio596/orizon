@@ -1,0 +1,16 @@
+### Modifica Paese (PUT)
+PUT http://localhost:8888/Orizon/api/paese/update.php
+Content-Type: application/json
+
+{
+    "id": 1,
+    "nome": "Italia nuovo paese"
+}
+
+### Elimina Paese (DELETE)
+DELETE http://localhost:8888/Orizon/api/paese/delete.php
+Content-Type: application/json
+
+{
+    "id": 2
+}
