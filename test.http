@@ -1,16 +1,50 @@
-### Modifica Paese (PUT)
-PUT http://localhost:8888/Orizon/api/paese/update.php
+POST http://localhost:8888/Orizon/api/paese/create.php
 Content-Type: application/json
 
 {
-    "id": 1,
-    "nome": "Italia nuovo paese"
+    "nome": "Italia"
 }
 
-### Elimina Paese (DELETE)
-DELETE http://localhost:8888/Orizon/api/paese/delete.php
+### (Fallo due volte per avere ID 1 e ID 2)
+POST http://localhost:8888/Orizon/api/paese/create.php
 Content-Type: application/json
 
 {
-    "id": 2
+    "nome": "Francia"
+}
+
+### 3. Crea Viaggio
+POST http://localhost:8888/Orizon/api/viaggio/create.php
+Content-Type: application/json
+
+{
+    "posti_disponibili": 15,
+    "paesi_ids": [5, 6] 
+}
+
+### 3. Vedi tutti i viaggi
+GET http://localhost:8888/Orizon/api/viaggio/read.php
+
+### 3. Filtra per paese
+http://localhost:8888/Orizon/api/viaggio/read.php?paese_id=5
+
+### 4. Filtra per i posti
+http://localhost:8888/Orizon/api/viaggio/read.php?posti=20
+
+### 5. Eliminare un viaggio
+DELETE http://localhost:8888/Orizon/api/viaggio/delete.php
+Content-Type: application/json
+
+{
+    "id": 26
+}
+
+### 6. Aggiornamento dati
+PUT http://localhost:8888/Orizon/api/viaggio/update.php
+Content-Type: application/json
+
+{
+    "id": 25,
+    "posti_disponibili": 50,
+    "paesi_ids": [5, 6]
 }

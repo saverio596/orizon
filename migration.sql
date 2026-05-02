@@ -15,10 +15,10 @@ CREATE TABLE viaggi (
 );
 
 -- Tabella Pivot (Relazione molti-a-molti)
-CREATE TABLE viaggio_paese (
+CREATE TABLE IF NOT EXISTS viaggi_paesi (
     viaggio_id INT,
     paese_id INT,
-    PRIMARY KEY (viaggio_id, paese_id),
     FOREIGN KEY (viaggio_id) REFERENCES viaggi(id) ON DELETE CASCADE,
-    FOREIGN KEY (paese_id) REFERENCES paesi(id) ON DELETE CASCADE
+    FOREIGN KEY (paese_id) REFERENCES paesi(id) ON DELETE CASCADE,
+    PRIMARY KEY (viaggio_id, paese_id)
 );
