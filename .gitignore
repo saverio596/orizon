@@ -1,0 +1,16 @@
+# File di test delle API (quello che volevi nascondere)
+test.http
+
+# File di configurazione del Database (se contiene password personali)
+# config/database.php
+
+# Cartelle di sistema e file temporanei
+.DS_Store
+Thumbs.db
+*.log
+
+# Cartelle degli editor e IDE
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
