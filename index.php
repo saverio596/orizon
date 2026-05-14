@@ -6,11 +6,11 @@ $dotenv->load();
 
 // Caricamento classi
 require_once __DIR__ . '/config/database.php';
-require_once __DIR__ . '/models/viaggio.php';
-require_once __DIR__ . '/models/paese.php';
-require_once __DIR__ . '/controllers/ViaggioController.php';
-require_once __DIR__ . '/controllers/PaeseController.php';
-require_once __DIR__ . '/Router.php';
+require_once __DIR__ . '/App/models/viaggio.php';
+require_once __DIR__ . '/App/models/paese.php';
+require_once __DIR__ . '/App/controllers/ViaggioController.php';
+require_once __DIR__ . '/App/controllers/PaeseController.php';
+require_once __DIR__ . '/core/Router.php';
 
 // Header CORS
 header("Access-Control-Allow-Origin: *");
