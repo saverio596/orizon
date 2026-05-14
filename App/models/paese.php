@@ -10,59 +10,43 @@ class Paese {
         $this->conn = $db;
     }
 
-    // creare un nuovo paese
+    // Creare un nuovo paese
     public function create() {
-        $query = "INSERT INTO " . $this->table_name . " SET nome=:nome";
-        
-        $stmt = $this->conn->prepare($query);
+        $query = "INSERT INTO " . $this->table_name . " (nome) VALUES (:nome)";
+        $stmt  = $this->conn->prepare($query);
+        $stmt->bindParam(':nome', $this->nome);
 
-        // Pulizia dati
-        $this->nome = htmlspecialchars(strip_tags((string)$this->nome));
-
-        $stmt->bindParam(":nome", $this->nome);
-
-        if ($stmt->execute()) {
-            return true;
-        }
+        if ($stmt->execute()) return true;
         return false;
     }
 
+    // Leggere tutti i paesi dal più recente al più vecchio
     public function read() {
-    // La query che seleziona i paesi dal più recente al più vecchio
-    $query = "SELECT id, nome FROM " . $this->table_name . " ORDER BY id DESC";
-    
-    $stmt = $this->conn->prepare($query);
-    $stmt->execute();
-    
-    return $stmt;
-}
+        $query = "SELECT id, nome FROM " . $this->table_name . " ORDER BY id DESC";
+        $stmt  = $this->conn->prepare($query);
+        $stmt->execute();
+        return $stmt;
+    }
 
-// Metodo per aggiornare un paese
-public function update() {
-    $query = "UPDATE " . $this->table_name . " SET nome = :nome WHERE id = :id";
-    $stmt = $this->conn->prepare($query);
+    // Aggiornare un paese
+    public function update() {
+        $query = "UPDATE " . $this->table_name . " SET nome = :nome WHERE id = :id";
+        $stmt  = $this->conn->prepare($query);
+        $stmt->bindParam(':nome', $this->nome);
+        $stmt->bindParam(':id', $this->id);
 
-    // Sanificazione
-    $this->nome = htmlspecialchars(strip_tags($this->nome));
-    $this->id = htmlspecialchars(strip_tags($this->id));
+        if ($stmt->execute()) return true;
+        return false;
+    }
 
-    $stmt->bindParam(':nome', $this->nome);
-    $stmt->bindParam(':id', $this->id);
+    // Eliminare un paese
+    public function delete() {
+        $query = "DELETE FROM " . $this->table_name . " WHERE id = :id";
+        $stmt  = $this->conn->prepare($query);
+        $stmt->bindParam(':id', $this->id);
 
-    if ($stmt->execute()) return true;
-    return false;
-}
-
-// Metodo per eliminare un paese
-public function delete() {
-    $query = "DELETE FROM " . $this->table_name . " WHERE id = :id";
-    $stmt = $this->conn->prepare($query);
-
-    $this->id = htmlspecialchars(strip_tags($this->id));
-    $stmt->bindParam(':id', $this->id);
-
-    if ($stmt->execute()) return true;
-    return false;
-}
+        if ($stmt->execute()) return true;
+        return false;
+    }
 }
 ?>

@@ -1,10 +1,4 @@
 <?php
-// Carica l'autoloader di Composer
-require_once __DIR__ . '/../vendor/autoload.php';
-
-// Inizializza Dotenv
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
-$dotenv->load();
 
 class Database {
     private $host;
@@ -15,25 +9,30 @@ class Database {
     public $conn;
 
     public function __construct() {
-        // Legge le variabili dal file .env
-        $this->host = $_ENV['DB_HOST'];
-        $this->db_name = $_ENV['DB_NAME'];
+        $this->host     = $_ENV['DB_HOST'];
+        $this->db_name  = $_ENV['DB_NAME'];
         $this->username = $_ENV['DB_USER'];
         $this->password = $_ENV['DB_PASS'];
-        $this->port = $_ENV['DB_PORT'];
+        $this->port     = $_ENV['DB_PORT'];
     }
 
     public function getConnection() {
         $this->conn = null;
         try {
             $this->conn = new PDO(
-                "mysql:host=" . $this->host . ";port=" . $this->port . ";dbname=" . $this->db_name,
+                "mysql:host=" . $this->host . ";port=" . $this->port . ";dbname=" . $this->db_name . ";charset=utf8",
                 $this->username,
-                $this->password
+                $this->password,
+                [
+                    PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,  
+                    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+                    PDO::ATTR_EMULATE_PREPARES   => false, 
+                ]
             );
-            $this->conn->exec("set names utf8");
-        } catch(PDOException $exception) {
-            echo "Errore di connessione: " . $exception->getMessage();
+        } catch (PDOException $exception) {
+            http_response_code(500);
+            echo json_encode(["messaggio" => "Errore di connessione al database."]);
+            exit();
         }
         return $this->conn;
     }

@@ -5,7 +5,6 @@ class PaeseController {
 
     public function __construct($db) {
         $this->db = $db;
-        require_once __DIR__ . '/../models/paese.php';
         $this->paese = new Paese($db);
     }
 

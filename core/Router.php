@@ -8,6 +8,14 @@ class Router {
     }
 
     public function dispatch($resource, $id, $method) {
+
+        // Gestione preflight CORS (richieste OPTIONS dei browser)
+        if ($method === 'OPTIONS') {
+            header("Access-Control-Allow-Headers: Content-Type, Authorization");
+            http_response_code(200);
+            exit();
+        }
+
         switch ($resource) {
             case 'viaggio':
                 $controller = new ViaggioController($this->db);
@@ -21,7 +29,7 @@ class Router {
 
             default:
                 http_response_code(404);
-                echo json_encode(["messaggio" => "Risorsa non trovata"]);
+                echo json_encode(["messaggio" => "Risorsa non trovata."]);
                 break;
         }
     }
@@ -32,13 +40,29 @@ class Router {
                 $id ? $controller->getOne($id) : $controller->getAll($_GET);
                 break;
             case 'POST':
-                $controller->create(json_decode(file_get_contents("php://input")));
+                $data = json_decode(file_get_contents("php://input"));
+                if ($data === null) {
+                    http_response_code(400);
+                    echo json_encode(["messaggio" => "Body JSON non valido."]);
+                    return;
+                }
+                $controller->create($data);
                 break;
             case 'PUT':
-                $controller->update($id, json_decode(file_get_contents("php://input")));
+                $data = json_decode(file_get_contents("php://input"));
+                if ($data === null) {
+                    http_response_code(400);
+                    echo json_encode(["messaggio" => "Body JSON non valido."]);
+                    return;
+                }
+                $controller->update($id, $data);
                 break;
             case 'DELETE':
                 $controller->delete($id);
+                break;
+            default:
+                http_response_code(405);
+                echo json_encode(["messaggio" => "Metodo non consentito."]);
                 break;
         }
     }
@@ -49,13 +73,29 @@ class Router {
                 $controller->getAll();
                 break;
             case 'POST':
-                $controller->create(json_decode(file_get_contents("php://input")));
+                $data = json_decode(file_get_contents("php://input"));
+                if ($data === null) {
+                    http_response_code(400);
+                    echo json_encode(["messaggio" => "Body JSON non valido."]);
+                    return;
+                }
+                $controller->create($data);
                 break;
             case 'PUT':
-                $controller->update($id, json_decode(file_get_contents("php://input")));
+                $data = json_decode(file_get_contents("php://input"));
+                if ($data === null) {
+                    http_response_code(400);
+                    echo json_encode(["messaggio" => "Body JSON non valido."]);
+                    return;
+                }
+                $controller->update($id, $data);
                 break;
             case 'DELETE':
                 $controller->delete($id);
+                break;
+            default:
+                http_response_code(405);
+                echo json_encode(["messaggio" => "Metodo non consentito."]);
                 break;
         }
     }
