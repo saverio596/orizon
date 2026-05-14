@@ -1,3 +1,9 @@
+# Escludi le credenziali del database
+.env
+
+# Escludi le dipendenze di Composer
+vendor/
+
 # File di test delle API (quello che volevi nascondere)
 test.http
 
