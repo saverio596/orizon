@@ -6,51 +6,13 @@ Benvenuti nel progetto **Orizon**, un sistema di API REST sviluppato in PHP per 
 - **CRUD Paesi**: Creazione, visualizzazione, aggiornamento ed eliminazione delle destinazioni.
 - **CRUD Viaggi**: Gestione completa dei viaggi (Crea, Leggi, Aggiorna, Elimina).
 - **Filtri Avanzati**: Ricerca viaggi per numero di posti e per paese specifico.
-- **Integrità del Database**: Utilizzo di transazioni SQL e vincoli Foreign Key (ON DELETE CASCADE).
 - **Sicurezza**: Prepared statement nativi PDO, gestione CORS completa.
 
 ## 🛠️ Requisiti Tecnici
-- **Server Locale**: MAMP (PHP 8.3+, MySQL)
+- **Server Locale**: MAMP
 - **Linguaggio**: PHP 8.3+
-- **Database**: MySQL / MariaDB
 - **Estensioni**: PDO, mod_rewrite Apache
 - **Dipendenze**: Composer, vlucas/phpdotenv
-
-## ⚙️ Installazione
-
-### 1. Clona il progetto in MAMP
-```bash
-cd /Applications/MAMP/htdocs
-git clone <repo-url> Orizon
-```
-
-### 2. Installa le dipendenze
-```bash
-cd Orizon
-composer install
-```
-
-### 3. Configura le variabili d'ambiente
-Crea un file `.env` nella root del progetto:
-```env
-DB_HOST=localhost
-DB_NAME=Orizon
-DB_USER=root
-DB_PASS=root
-DB_PORT=8889
-```
-
-### 4. Crea il database
-Importa il file `migration.sql` da phpMyAdmin (`http://localhost:8888/phpMyAdmin`) oppure da terminale:
-```bash
-/Applications/MAMP/bin/mysql/bin/mysql -u root -p -P 8889 < migration.sql
-```
-
-### 5. Abilita mod_rewrite in MAMP
-```bash
-sed -i '' 's/#LoadModule rewrite_module/LoadModule rewrite_module/' /Applications/MAMP/conf/apache/httpd.conf
-```
-Poi riavvia MAMP.
 
 ---
 
@@ -77,15 +39,6 @@ Orizon/
 ├── index.php
 └── migration.sql
 ```
-
-## 📂 Struttura del Database
-Il progetto si basa su una relazione **Molti-a-Molti** tra Viaggi e Paesi.
-
-| Tabella | Campi | Descrizione |
-| :--- | :--- | :--- |
-| `paesi` | `id`, `nome` | Elenco delle nazioni |
-| `viaggi` | `id`, `posti_disponibili`, `creato_il` | Dati generali del viaggio |
-| `viaggi_paesi` | `viaggio_id`, `paese_id` | Tabella ponte molti-a-molti |
 
 ---
 
