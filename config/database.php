@@ -1,5 +1,4 @@
 <?php
-
 class Database {
     private $host;
     private $db_name;
@@ -24,14 +23,14 @@ class Database {
                 $this->username,
                 $this->password,
                 [
-                    PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,  
+                    PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
                     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-                    PDO::ATTR_EMULATE_PREPARES   => false, 
+                    PDO::ATTR_EMULATE_PREPARES   => false,
                 ]
             );
-        } catch (PDOException $exception) {
+        } catch (PDOException $e) {
             http_response_code(500);
-            echo json_encode(["messaggio" => "Errore di connessione al database."]);
+            echo json_encode(["message" => "Database connection error."]);
             exit();
         }
         return $this->conn;

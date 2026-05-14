@@ -1,5 +1,4 @@
 <?php
-
 class Router {
     private $db;
 
@@ -9,7 +8,7 @@ class Router {
 
     public function dispatch($resource, $id, $method) {
 
-        // Gestione preflight CORS (richieste OPTIONS dei browser)
+        // Handle CORS preflight requests
         if ($method === 'OPTIONS') {
             header("Access-Control-Allow-Headers: Content-Type, Authorization");
             http_response_code(200);
@@ -17,24 +16,24 @@ class Router {
         }
 
         switch ($resource) {
-            case 'viaggio':
-                $controller = new ViaggioController($this->db);
-                $this->handleViaggio($controller, $id, $method);
+            case 'trip':
+                $controller = new TripController($this->db);
+                $this->handleTrip($controller, $id, $method);
                 break;
 
-            case 'paese':
-                $controller = new PaeseController($this->db);
-                $this->handlePaese($controller, $id, $method);
+            case 'country':
+                $controller = new CountryController($this->db);
+                $this->handleCountry($controller, $id, $method);
                 break;
 
             default:
                 http_response_code(404);
-                echo json_encode(["messaggio" => "Risorsa non trovata."]);
+                echo json_encode(["message" => "Resource not found."]);
                 break;
         }
     }
 
-    private function handleViaggio($controller, $id, $method) {
+    private function handleTrip($controller, $id, $method) {
         switch ($method) {
             case 'GET':
                 $id ? $controller->getOne($id) : $controller->getAll($_GET);
@@ -43,7 +42,7 @@ class Router {
                 $data = json_decode(file_get_contents("php://input"));
                 if ($data === null) {
                     http_response_code(400);
-                    echo json_encode(["messaggio" => "Body JSON non valido."]);
+                    echo json_encode(["message" => "Invalid JSON body."]);
                     return;
                 }
                 $controller->create($data);
@@ -52,7 +51,7 @@ class Router {
                 $data = json_decode(file_get_contents("php://input"));
                 if ($data === null) {
                     http_response_code(400);
-                    echo json_encode(["messaggio" => "Body JSON non valido."]);
+                    echo json_encode(["message" => "Invalid JSON body."]);
                     return;
                 }
                 $controller->update($id, $data);
@@ -62,12 +61,12 @@ class Router {
                 break;
             default:
                 http_response_code(405);
-                echo json_encode(["messaggio" => "Metodo non consentito."]);
+                echo json_encode(["message" => "Method not allowed."]);
                 break;
         }
     }
 
-    private function handlePaese($controller, $id, $method) {
+    private function handleCountry($controller, $id, $method) {
         switch ($method) {
             case 'GET':
                 $controller->getAll();
@@ -76,7 +75,7 @@ class Router {
                 $data = json_decode(file_get_contents("php://input"));
                 if ($data === null) {
                     http_response_code(400);
-                    echo json_encode(["messaggio" => "Body JSON non valido."]);
+                    echo json_encode(["message" => "Invalid JSON body."]);
                     return;
                 }
                 $controller->create($data);
@@ -85,7 +84,7 @@ class Router {
                 $data = json_decode(file_get_contents("php://input"));
                 if ($data === null) {
                     http_response_code(400);
-                    echo json_encode(["messaggio" => "Body JSON non valido."]);
+                    echo json_encode(["message" => "Invalid JSON body."]);
                     return;
                 }
                 $controller->update($id, $data);
@@ -95,7 +94,7 @@ class Router {
                 break;
             default:
                 http_response_code(405);
-                echo json_encode(["messaggio" => "Metodo non consentito."]);
+                echo json_encode(["message" => "Method not allowed."]);
                 break;
         }
     }

@@ -1,24 +1,24 @@
 CREATE DATABASE IF NOT EXISTS Orizon;
 USE Orizon;
 
--- Tabella Paesi
-CREATE TABLE paesi (
+-- Countries table
+CREATE TABLE countries (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    nome VARCHAR(100) NOT NULL
+    name VARCHAR(100) NOT NULL
 );
 
--- Tabella Viaggi
-CREATE TABLE viaggi (
+-- Trips table
+CREATE TABLE trips (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    posti_disponibili INT NOT NULL,
-    creato_il TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    available_seats INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Tabella Pivot (Relazione molti-a-molti)
-CREATE TABLE IF NOT EXISTS viaggi_paesi (
-    viaggio_id INT,
-    paese_id INT,
-    FOREIGN KEY (viaggio_id) REFERENCES viaggi(id) ON DELETE CASCADE,
-    FOREIGN KEY (paese_id) REFERENCES paesi(id) ON DELETE CASCADE,
-    PRIMARY KEY (viaggio_id, paese_id)
+-- Pivot table (Many-to-Many relationship)
+CREATE TABLE IF NOT EXISTS trips_countries (
+    trip_id INT,
+    country_id INT,
+    FOREIGN KEY (trip_id) REFERENCES trips(id) ON DELETE CASCADE,
+    FOREIGN KEY (country_id) REFERENCES countries(id) ON DELETE CASCADE,
+    PRIMARY KEY (trip_id, country_id)
 );

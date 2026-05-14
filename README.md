@@ -1,31 +1,31 @@
-# Orizon API - Gestione Viaggi
+# Orizon API - Trip Management
 
-Benvenuti nel progetto **Orizon**, un sistema di API REST sviluppato in PHP per la gestione di viaggi e destinazioni internazionali. Il sistema permette di creare viaggi, associarli a più paesi e gestire le disponibilità dei posti.
+Welcome to **Orizon**, a REST API built in PHP for managing trips and international destinations. The system allows you to create trips, associate them with multiple countries, and manage seat availability.
 
-## 🚀 Funzionalità
-- **CRUD Paesi**: Creazione, visualizzazione, aggiornamento ed eliminazione delle destinazioni.
-- **CRUD Viaggi**: Gestione completa dei viaggi (Crea, Leggi, Aggiorna, Elimina).
-- **Filtri Avanzati**: Ricerca viaggi per numero di posti e per paese specifico.
-- **Sicurezza**: Prepared statement nativi PDO, gestione CORS completa.
+## 🚀 Features
+- **CRUD Countries**: Create, read, update, and delete destinations.
+- **CRUD Trips**: Full trip management (Create, Read, Update, Delete).
+- **Advanced Filters**: Search trips by available seats and by country.
+- **Security**: Native PDO prepared statements, full CORS support.
 
-## 🛠️ Requisiti Tecnici
-- **Server Locale**: MAMP
-- **Linguaggio**: PHP 8.3+
-- **Estensioni**: PDO, mod_rewrite Apache
-- **Dipendenze**: Composer, vlucas/phpdotenv
+## 🛠️ Requirements
+- **Local Server**: MAMP
+- **Language**: PHP 8.3+
+- **Extensions**: PDO, Apache mod_rewrite
+- **Dependencies**: Composer, vlucas/phpdotenv
 
 ---
 
-## 📂 Struttura del Progetto
+## 📂 Project Structure
 ```
 Orizon/
 ├── App/
 │   ├── controllers/
-│   │   ├── PaeseController.php
-│   │   └── ViaggioController.php
+│   │   ├── CountryController.php
+│   │   └── TripController.php
 │   └── models/
-│       ├── paese.php
-│       └── viaggio.php
+│       ├── country.php
+│       └── trip.php
 ├── config/
 │   └── database.php
 ├── core/
@@ -42,67 +42,67 @@ Orizon/
 
 ---
 
-## 📡 Documentazione API
+## 📡 API Documentation
 
 **Base URL**: `http://localhost:8888/Orizon`
 
-### Paesi
+### Countries
 
-| Metodo | Endpoint | Descrizione |
+| Method | Endpoint | Description |
 | :--- | :--- | :--- |
-| `GET` | `/paese` | Restituisce tutti i paesi |
-| `POST` | `/paese` | Crea un nuovo paese |
-| `PUT` | `/paese/{id}` | Aggiorna un paese esistente |
-| `DELETE` | `/paese/{id}` | Elimina un paese |
+| `GET` | `/country` | Returns all countries |
+| `POST` | `/country` | Creates a new country |
+| `PUT` | `/country/{id}` | Updates an existing country |
+| `DELETE` | `/country/{id}` | Deletes a country |
 
-### Viaggi
+### Trips
 
-| Metodo | Endpoint | Descrizione |
+| Method | Endpoint | Description |
 | :--- | :--- | :--- |
-| `GET` | `/viaggio` | Restituisce tutti i viaggi (supporta filtri) |
-| `GET` | `/viaggio/{id}` | Restituisce un viaggio specifico con i suoi paesi |
-| `POST` | `/viaggio` | Crea un viaggio e associa i paesi |
-| `PUT` | `/viaggio/{id}` | Modifica posti e paesi di un viaggio esistente |
-| `DELETE` | `/viaggio/{id}` | Elimina un viaggio e i suoi legami |
+| `GET` | `/trip` | Returns all trips (supports filters) |
+| `GET` | `/trip/{id}` | Returns a specific trip with its countries |
+| `POST` | `/trip` | Creates a trip and associates countries |
+| `PUT` | `/trip/{id}` | Updates seats and countries of an existing trip |
+| `DELETE` | `/trip/{id}` | Deletes a trip and its links |
 
-### Filtri disponibili su `GET /viaggio`
-| Parametro | Tipo | Descrizione |
+### Available filters on `GET /trip`
+| Parameter | Type | Description |
 | :--- | :--- | :--- |
-| `paese_id` | integer | Filtra i viaggi che includono quel paese |
-| `posti` | integer | Filtra i viaggi con almeno N posti disponibili |
+| `country_id` | integer | Filter trips that include a specific country |
+| `seats` | integer | Filter trips with at least N available seats |
 
-Esempio: `GET /viaggio?paese_id=1&posti=5`
+Example: `GET /trip?country_id=1&seats=5`
 
 ---
 
-## 📋 Esempi di Richieste
+## 📋 Request Examples
 
-### Crea un paese
+### Create a country
 ```json
-POST /paese
+POST /country
 Content-Type: application/json
 
-{ "nome": "Italia" }
+{ "name": "Italy" }
 ```
 
-### Crea un viaggio
+### Create a trip
 ```json
-POST /viaggio
+POST /trip
 Content-Type: application/json
 
 {
-    "posti_disponibili": 25,
-    "paesi_ids": [1, 2]
+    "available_seats": 25,
+    "country_ids": [1, 2]
 }
 ```
 
-### Aggiorna un viaggio
+### Update a trip
 ```json
-PUT /viaggio/1
+PUT /trip/1
 Content-Type: application/json
 
 {
-    "posti_disponibili": 10,
-    "paesi_ids": [1]
+    "available_seats": 10,
+    "country_ids": [1]
 }
 ```
