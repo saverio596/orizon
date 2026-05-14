@@ -63,6 +63,19 @@ class Viaggio {
     }
 }
 
+public function readOne() {
+    $query = "SELECT v.id, v.posti_disponibili, p.nome as paese_nome, p.id as paese_id
+              FROM " . $this->table_name . " v
+              LEFT JOIN viaggi_paesi vp ON v.id = vp.viaggio_id
+              LEFT JOIN paesi p ON vp.paese_id = p.id
+              WHERE v.id = :id";
+
+    $stmt = $this->conn->prepare($query);
+    $stmt->bindParam(':id', $this->id);
+    $stmt->execute();
+    return $stmt;
+}
+
 // Metodo per leggere i viaggi con filtri opzionali
 public function read($paese_id = null, $posti = null) {
     $query = "SELECT v.id, v.posti_disponibili, p.nome as paese_nome, p.id as paese_id
